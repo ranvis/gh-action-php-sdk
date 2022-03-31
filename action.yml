@@ -15,10 +15,6 @@
       required: false
       default: 'nts'
 
-    msvc:
-      description: 'Microsoft Visual C++ compiler toolset prefix (e.g: vc14, vs15, vs16)'
-      required: false
-
     arch:
       description: 'Target architecture (x64, x86)'
       required: false
@@ -42,7 +38,6 @@
           ${{github.action_path}}\src\setup-php-sdk.ps1 `
             -PhpVersion ${{ inputs.php_version }} `
             -ThreadSafety ${{ inputs.ts }} `
-            -VC ${{ inputs.msvc }} `
             -Arch ${{ inputs.arch }} `
             -InstallDir ${{ inputs.install_dir }} `
             -CacheDir ${{ inputs.cache_dir }}

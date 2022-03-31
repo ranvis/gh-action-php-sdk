@@ -102,6 +102,21 @@ function Install-DevPack {
     }
 }
 
+# https://windows.php.net/downloads/releases/archives/
+if ($VC -eq "") {
+    $VC = if ($PhpVersion -match "^8\.[01]") {
+        "vs16"
+    } elseif ($PhpVersion -match "^7\.[234]") {
+        "vc15"
+    } elseif ($PhpVersion -match "^7\.[01]") {
+        "vc14"
+    } elseif ($PhpVersion -eq "5.5") {
+        "vc11"
+    } else {
+        throw "unknown toolset"
+    }
+}
+
 Write-Output "::group::Installing PHP SDK binary tools"
 Install-SDK -version $PhpVersion -cacheDir $CacheDir -installDir $InstallDir
 Write-Output "::endgroup::"
