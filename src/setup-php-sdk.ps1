@@ -104,7 +104,7 @@ function Install-DevPack {
 
 # https://windows.php.net/downloads/releases/archives/
 if ($VC -eq "") {
-    $VC = if ($PhpVersion -match "^8\.[01]") {
+    $VC = if ($PhpVersion -match "^8\.[012]") {
         "vs16"
     } elseif ($PhpVersion -match "^7\.[234]") {
         "vc15"
