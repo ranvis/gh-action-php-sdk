@@ -72,9 +72,8 @@ function Install-DevPack {
         $tsPrefix = if ($ts -eq 'ts') {'Win32'} else {'nts-Win32'}
 
         if (-not $releases.$PhpVersion) {
-            # Download from archive using detected PHP version
-            $phpVer = & php -r 'echo PHP_VERSION;'
-            $baseUrl = "${baseUrl}/archives"
+            Write-Output "::error::${PhpVersion} could not be found in releases.json"
+            exit 1
         } else {
             $phpVer = $releases.$PhpVersion.version
         }
