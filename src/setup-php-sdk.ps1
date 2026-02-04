@@ -38,7 +38,7 @@ function Install-SDK {
 
         if (-not (Test-Path $temp) -or (Get-Item $temp).length -eq 0kb) {
             Write-Output "Downloading PHP SDK binary tools v${SdkVersion}"
-            Invoke-WebRequest $RemoteUrl -OutFile $temp
+            Invoke-WebRequest -UseBasicParsing $RemoteUrl -OutFile $temp
         }
 
         if (-not (Test-Path "$installDir\php-sdk")) {
@@ -68,7 +68,7 @@ function Install-DevPack {
 
     process {
         $baseUrl = "https://windows.php.net/downloads/releases"
-        $releases = Invoke-WebRequest "${baseUrl}/releases.json" | ConvertFrom-Json
+        $releases = Invoke-WebRequest -UseBasicParsing "${baseUrl}/releases.json" | ConvertFrom-Json
         $tsPrefix = if ($ts -eq 'ts') {'Win32'} else {'nts-Win32'}
 
         if (-not $releases.$PhpVersion) {
@@ -89,7 +89,7 @@ function Install-DevPack {
 
         if (-not (Test-Path $temp) -or (Get-Item $temp).length -eq 0kb) {
             Write-Output "Downloading PHP Developer Pack for PHP v${phpVer} from ${RemoteUrl}"
-            Invoke-WebRequest $RemoteUrl -OutFile $temp
+            Invoke-WebRequest -UseBasicParsing $RemoteUrl -OutFile $temp
         }
 
         if (-not (Test-Path "$installDir\php-devpack")) {
