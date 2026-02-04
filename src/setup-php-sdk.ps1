@@ -25,7 +25,7 @@ function Install-SDK {
     process {
         # The PHP SDK 2.2+ is compatible with PHP 7.2 and above.
         # The PHP SDK 2.1 is required to build PHP 7.1 or 7.0.
-        $SdkVersion = if ($PhpVersion -lt "7.2") {"2.1.10"} else {"2.3.0"}
+        $SdkVersion = if ($PhpVersion -lt "7.2") {"2.1.10"} else {"2.6.0"}
 
         $PhpSdkZip = "php-sdk-${SdkVersion}.zip"
         $RemoteUrl = "https://github.com/php/php-sdk-binary-tools/archive/${PhpSdkZip}"
