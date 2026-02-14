@@ -7,7 +7,7 @@
 
   inputs:
     php_version:
-      description: 'PHP version to build for (e.g: 7.4, 8.0)'
+      description: 'PHP version to build for (e.g. 8.5)'
       required: true
 
     ts:
@@ -20,6 +20,11 @@
       required: false
       default: 'x64'
 
+    vc:
+      description: 'VC toolset name (e.g. vs17)'
+      required: false
+      default: ''
+
     install_dir:
       description: 'Target directory for php-sdk tools installation (e.g: C:\tools)'
       required: true
@@ -29,9 +34,31 @@
       required: false
       default: ''
 
+  outputs:
+    vc:
+      value: ${{ steps.final.outputs.vc }}
+
   runs:
     using: composite
     steps:
+      - name: Resolve VC
+        id: default_vc
+        if: inputs.vc == ''
+        uses: ./vc-ver
+        with:
+          php_version: ${{ inputs.php_version }}
+
+      - id: final
+        shell: powershell
+        run: |
+          if ("${{ inputs.vc }}" -ne "") {
+              $VC = "${{ inputs.vc }}"
+          } else {
+              $VC = "${{ steps.default_vc.outputs.vc }}"
+          }
+
+          "vc=$VC" >> $env:GITHUB_OUTPUT
+
       - name: Set Up PHP SDK with Developer Pack
         shell: powershell
         run: |
@@ -39,5 +66,6 @@
             -PhpVersion ${{ inputs.php_version }} `
             -ThreadSafety ${{ inputs.ts }} `
             -Arch ${{ inputs.arch }} `
+            -VC ${{ steps.final.outputs.vc }} `
             -InstallDir ${{ inputs.install_dir }} `
             -CacheDir ${{ inputs.cache_dir }}

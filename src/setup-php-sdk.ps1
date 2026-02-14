@@ -2,7 +2,7 @@ param (
     # PHP version to build for (e.g: 7.4, 8.0)
     [Parameter(Mandatory = $true)] [ValidatePattern("[5-8]\.[0-9]")] [System.String] $PhpVersion,
     [Parameter(Mandatory = $false)] [ValidatePattern("^(ts|nts)$")] [System.String] $ThreadSafety,
-    [Parameter(Mandatory = $false)] [ValidatePattern("^v(c|s)\d\d$")] [System.String] $VC,
+    [Parameter(Mandatory = $true)] [ValidatePattern("^v(c|s)\d\d$")] [System.String] $VC,
     [Parameter(Mandatory = $false)] [ValidatePattern("^x(64|86)$")] [System.String] $Arch,
     [Parameter(Mandatory = $false)] [System.String] $InstallDir,
     [Parameter(Mandatory = $false)] [System.String] $CacheDir
@@ -98,24 +98,6 @@ function Install-DevPack {
         }
 
         Write-Output "PHP Developer Pack php-${phpVer}-devel-${msvc}-${arch} installed to ${installDir}\php-devpack"
-    }
-}
-
-# https://windows.php.net/downloads/releases/
-# https://windows.php.net/downloads/releases/archives/
-if ($VC -eq "") {
-    $VC = if ($PhpVersion -match "^8\.[^0-3]") {
-        "vs17"
-    } elseif ($PhpVersion -match "^8\.[0-3]") {
-        "vs16"
-    } elseif ($PhpVersion -match "^7\.[234]") {
-        "vc15"
-    } elseif ($PhpVersion -match "^7\.[01]") {
-        "vc14"
-    } elseif ($PhpVersion -eq "5.5") {
-        "vc11"
-    } else {
-        throw "unknown toolset"
     }
 }
 

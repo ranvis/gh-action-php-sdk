@@ -1,0 +1,21 @@
+name: "Resolve PHP VC Toolset"
+description: "Resolve VC toolset from PHP version"
+inputs:
+  php_version:
+    required: true
+    description: "PHP version (e.g. 8.5)"
+outputs:
+  vc:
+    description: "Resolved VC toolset"
+    value: ${{ steps.resolve.outputs.vc }}
+
+runs:
+  using: composite
+  steps:
+    - id: resolve
+      shell: pwsh
+      run: |
+        $vc = & ${{ github.action_path }}/src/resolve-vc.ps1 `
+          -PhpVersion "${{ inputs.php_version }}"
+
+        "vc=$VC" >> $env:GITHUB_OUTPUT
