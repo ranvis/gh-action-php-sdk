@@ -21,6 +21,7 @@ $versions = @{
     "8.3" = "vs16"
     "8.4" = "vs17"
     "8.5" = "vs17"
+    "8.6" = "vs18"
 }
 $vs = $versions.$version
 if (-not $vs) {
@@ -39,8 +40,10 @@ foreach ($toolset in (Get-ChildItem $dir)) {
         $toolsets."vc15" = $toolset
     } elseif ((14 -eq $tsv[0]) -and (29 -ge $tsv[1])) {
         $toolsets."vs16" = $toolset
-    } elseif (14 -eq $tsv[0]) {
+    } elseif ((14 -eq $tsv[0]) -and (50 -ge $tsv[1])) {
         $toolsets."vs17" = $toolset
+    } elseif (14 -eq $tsv[0]) {
+        $toolsets."vs18" = $toolset
     }
 }
 $toolset = $toolsets.$vs
@@ -52,10 +55,10 @@ if (-not (Test-Path "php-sdk")) {
     Write-Output "Install PHP SDK ..."
 
     $temp = New-TemporaryFile | Rename-Item -NewName {$_.Name + ".zip"} -PassThru
-    $url = "https://github.com/php/php-sdk-binary-tools/releases/download/php-sdk-2.3.0/php-sdk-binary-tools-php-sdk-2.3.0.zip"
+    $url = "https://github.com/php/php-sdk-binary-tools/archive/php-sdk-2.9.0.zip"
     Invoke-WebRequest $url -OutFile $temp
     Expand-Archive $temp -DestinationPath "."
-    Rename-Item "php-sdk-binary-tools-php-sdk-2.3.0" "php-sdk"
+    Rename-Item "php-sdk-binary-tools-php-sdk-2.9.0" "php-sdk"
 }
 
 $tspart = if ($ts -eq "nts") {"nts-Win32"} else {"Win32"}
