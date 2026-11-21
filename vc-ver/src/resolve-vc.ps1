@@ -4,7 +4,9 @@ param(
 
 # https://windows.php.net/downloads/releases/
 # https://windows.php.net/downloads/releases/archives/
-if ($PhpVersion -match "^8\.[^0-3]") {
+if ($PhpVersion -match "^8\.[^0-5]") {
+	"vs18"
+} elseif ($PhpVersion -match "^8\.[45]") {
 	"vs17"
 } elseif ($PhpVersion -match "^8\.[0-3]") {
 	"vs16"

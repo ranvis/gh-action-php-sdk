@@ -7,7 +7,7 @@
 
   inputs:
     php_version:
-      description: 'PHP version to build for (e.g. 8.5)'
+      description: 'PHP version to build for (e.g. 8.6)'
       required: true
 
     ts:

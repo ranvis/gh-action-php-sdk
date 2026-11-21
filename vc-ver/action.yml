@@ -3,7 +3,7 @@ description: "Resolve VC toolset from PHP version"
 inputs:
   php_version:
     required: true
-    description: "PHP version (e.g. 8.5)"
+    description: "PHP version (e.g. 8.6)"
 outputs:
   vc:
     description: "Resolved VC toolset"
