@@ -38,17 +38,19 @@ runs:
       shell: powershell
     - name: Cache PHP SDK
       if: ${{inputs.cache == 'true'}}
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: php-sdk
-        key: php-sdk-2.3.0
+        key: php-sdk-2.9.0
+        restore-keys: |
+          php-sdk-2.3.0
     - name: Cache PHP
       if: ${{inputs.cache == 'true'}}
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: |
-            php-bin
-            php-dev
+          php-bin
+          php-dev
         key: php-${{steps.revision.outputs.version}}-${{inputs.arch}}-${{inputs.ts}}
     - id: setup
       run: ${{github.action_path}}/run -version ${{inputs.version}} -revision ${{steps.revision.outputs.version}} -baseurl ${{steps.revision.outputs.baseurl}} -arch ${{inputs.arch}} -ts ${{inputs.ts}} -deps ${{inputs.deps}}
